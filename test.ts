@@ -52,7 +52,6 @@ function part2() {
 function part3() {
     clearScreen();
     createUI();
-    // createCity();
 }
 
 let url = "https://cityinfo.buchwaldshave34.dk/api";
@@ -71,12 +70,10 @@ function getCities() : Promise<Array<City>> {
 
 function displayCities (cities: Array<City>) {
     cities.forEach(city => {
-         var button = document.createElement('input');
-         button.type = 'button';
-         button.setAttribute('ID', 'btn');
-         button.value = city.name;
+         var tt = document.createElement('p');
+         tt.innerHTML = city.name;
          var div = document.getElementById("div");
-         div?.append(button);
+         div?.append(tt);
     }) 
 }
 //#endregion
@@ -95,7 +92,7 @@ function displayCityWCountry(cityCountry: Array<City>) {
     cityCountry.forEach(country => { 
          var p = document.createElement('p');
          p.setAttribute('ID', 'btn');
-         p.innerHTML = "Country: " + country.country.countryName + " | City: " +country.name;
+         p.innerHTML = "City: " +country.name+ " | Country: " + country.country.countryName;
          var div = document.getElementById("div");
          div?.append(p);
     })
@@ -104,31 +101,51 @@ function displayCityWCountry(cityCountry: Array<City>) {
 //#region Assignment 3
 // 3 - Create City belonging to CountryId. 
 
-let city = {
-    "name": "dddd",
-    "description": "Descr",
-    "countryID": 14
-  }
-
 function createUI() {
     var cityName = document.createElement('input');
     cityName.setAttribute('placeholder', 'Enter City Name');
+    cityName.setAttribute('value', "");
+    cityName.setAttribute('ID', '1');
+    
     var cityDesc = document.createElement('input');
-    cityDesc.setAttribute('placeholder', 'Enter description');
+    cityDesc.setAttribute('placeholder', 'Enter Description');
+    cityDesc.setAttribute('value', "");
+    cityDesc.setAttribute('ID', '2');
+    
     var countryid = document.createElement('input');
-    countryid.setAttribute('placeholder', 'Enter country Id');
+    countryid.setAttribute('placeholder', 'Enter Country Id');
+    countryid.setAttribute('value', "");
+    countryid.setAttribute('ID', '3');
     
     var button = document.createElement('input');
     button.type = 'button';
-    button.setAttribute('ID', 'btn');
     button.value = "Create City";
-    button.setAttribute('onClick','createCity()');
+    button.setAttribute('onClick','setAndSend()');
     
     var div = document.getElementById("div");
     div?.append(cityName);
     div?.append(cityDesc);
     div?.append(countryid);
     div?.append(button);
+}
+
+let city = {
+    "name": "dddd",
+    "description": "Descr",
+    "countryID": 14
+  }
+var txtName;
+var txtDesc;
+var txtId;
+
+function setAndSend() {
+    txtName = document.getElementById("1");
+    city.name = txtName.value;
+    txtDesc = document.getElementById("2");
+    city.description = txtDesc.value;
+    txtId = document.getElementById("3");
+    city.countryID = txtId.value;
+    createCity()
 }
 
 function createCity() {
